@@ -24,86 +24,74 @@ public extension NSDateComponents
         new.year = 0
         return new
     }
+    
+    public func before(date : NSDate) -> NSDate
+    {
+        return date - self
+    }
+
+    public func after(date : NSDate) -> NSDate
+    {
+        return date + self
+    }
+    
+    public func beforeNow() -> NSDate
+    {
+        return self.before(NSDate())
+    }
+
+    public func afterNow() -> NSDate
+    {
+        return self.after(NSDate())
+    }
 }
 
 public extension Int
 {
-    public func daysFromNow()->NSDate
-    {
-        return NSDate.dateWithDaysFromNow(self)
-    }
-    
-    public func daysBeforeNow() -> NSDate
-    {
-        return NSDate.dateWithDaysBeforeNow(self)
-    }
-    
-    public func minutesFromNow()->NSDate
-    {
-        return NSDate.dateWithMinutesFromNow(self)
-    }
-    
-    public func minutesBeforeNow() -> NSDate
-    {
-        return NSDate.dateWithDaysBeforeNow(self)
-    }
-    
-    public func hoursBeforeNow() -> NSDate
-    {
-        return NSDate.dateWithHoursBeforeNow(self)
-    }
-    
-    public func hoursAfterNow() -> NSDate
-    {
-        return NSDate.dateWithHoursFromNow(self)
-    }
-    
-    public func secondsFromNow() -> NSDate
-    {
-        return NSDate().dateByAddingSeconds(self)
-    }
-    
-    public func secondsBeforeNow() -> NSDate
-    {
-        return NSDate().dateBySubtractingSeconds(self)
-    }
-    
-    public func hours() -> NSDateComponents
+    public var hours : NSDateComponents
     {
         let components : NSDateComponents = NSDateComponents.zero()
         components.hour = self
         return components
     }
     
-    public func minutes() -> NSDateComponents
+    public var minutes : NSDateComponents
     {
         let components : NSDateComponents = NSDateComponents.zero()
         components.minute = self
         return components
     }
     
-    public func seconds() -> NSDateComponents
+    public var seconds : NSDateComponents
     {
         let components : NSDateComponents = NSDateComponents.zero()
         components.second = self
         return components
     }
     
-    public func days() -> NSDateComponents
+    public var days : NSDateComponents
     {
         let components : NSDateComponents = NSDateComponents.zero()
         components.day = self
         return components
     }
     
-    public func months() -> NSDateComponents
+    public var months : NSDateComponents
     {
         let components : NSDateComponents = NSDateComponents.zero()
         components.month = self
         return components
     }
+
+    public var weeks : NSDateComponents
+    {
+        let components : NSDateComponents = NSDateComponents.zero()
+        components.day = self*7
+        return components
+    }
+
     
-    public func years() -> NSDateComponents
+    public var years : NSDateComponents
     {
         let components : NSDateComponents = NSDateComponents.zero()
         components.year = self
@@ -252,9 +240,9 @@ public func - (let frmDate : NSDate , let toDate : NSDate) -> NSDateComponents
     return NSCalendar.currentCalendar().components([.Year,.Month,.Day,.Hour,.Minute,.Second], fromDate: toDate, toDate: frmDate, options: NSCalendarOptions(rawValue:0))
 }
 
-
 extension NSDateComponents : Comparable
 {
+    
 }
 
 public func < (let comp : NSDateComponents , let other : NSDateComponents)->Bool
