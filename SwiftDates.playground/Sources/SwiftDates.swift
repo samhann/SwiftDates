@@ -221,18 +221,6 @@ public func + (let date : NSDate , comp : NSDateComponents)->NSDate
     return NSCalendar.currentCalendar().dateByAddingComponents(comp, toDate: date, options: NSCalendarOptions(rawValue: 0))!
 }
 
-public func + (let compOne : NSDateComponents , compTwo : NSDateComponents)->NSDateComponents
-{
-    let newComponent = NSDateComponents()
-    newComponent.minute = compOne.minute + compTwo.minute
-    newComponent.second = compOne.second + compTwo.second
-    newComponent.hour = compOne.hour + compTwo.hour
-    newComponent.day = compOne.day + compTwo.day
-    newComponent.month = compOne.month + compTwo.month
-    newComponent.year = compOne.year + compTwo.year
-    return newComponent
-}
-
 public func - (let date : NSDate , comp : NSDateComponents) -> NSDate
 {
     let negativeComponent = NSDateComponents()
@@ -245,11 +233,29 @@ public func - (let date : NSDate , comp : NSDateComponents) -> NSDate
     return NSCalendar.currentCalendar().dateByAddingComponents(negativeComponent, toDate: date, options: NSCalendarOptions(rawValue: 0))!
 }
 
+
+public func + (let compOne : NSDateComponents , compTwo : NSDateComponents)->NSDateComponents
+{
+    let newComponent = NSDateComponents()
+    newComponent.minute = compOne.minute + compTwo.minute
+    newComponent.second = compOne.second + compTwo.second
+    newComponent.hour = compOne.hour + compTwo.hour
+    newComponent.day = compOne.day + compTwo.day
+    newComponent.month = compOne.month + compTwo.month
+    newComponent.year = compOne.year + compTwo.year
+    return newComponent
+}
+
+
 public func - (let frmDate : NSDate , let toDate : NSDate) -> NSDateComponents
 {
     return NSCalendar.currentCalendar().components([.Year,.Month,.Day,.Hour,.Minute,.Second], fromDate: toDate, toDate: frmDate, options: NSCalendarOptions(rawValue:0))
 }
 
+
+extension NSDateComponents : Comparable
+{
+}
 
 public func < (let comp : NSDateComponents , let other : NSDateComponents)->Bool
 {
@@ -271,7 +277,6 @@ public func < (let comp : NSDateComponents , let other : NSDateComponents)->Bool
     else if(comp.second > other.second) {
         return false
     }
-    
     return true
 }
 
@@ -280,9 +285,6 @@ public func == (let comp : NSDateComponents , let other : NSDateComponents)->Boo
     return comp.year == other.year && comp.month == other.month && comp.day == other.day && comp.hour == other.hour && comp.minute == other.minute && comp.second == other.second
 }
 
-extension NSDateComponents : Comparable
-{
-}
 
 
 
