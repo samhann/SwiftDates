@@ -11,6 +11,21 @@ import Foundation
 import UIKit
 
 
+public extension NSDateComponents
+{
+    static public func zero()->NSDateComponents
+    {
+        let new = NSDateComponents()
+        new.hour = 0
+        new.minute = 0
+        new.second = 0
+        new.day = 0
+        new.month = 0
+        new.year = 0
+        return new
+    }
+}
+
 public extension Int
 {
     public func daysFromNow()->NSDate
@@ -55,75 +70,43 @@ public extension Int
     
     public func hours() -> NSDateComponents
     {
-        let components : NSDateComponents = NSDateComponents()
+        let components : NSDateComponents = NSDateComponents.zero()
         components.hour = self
-        components.year = 0
-        components.minute = 0
-        components.second = 0
-        components.month = 0
-        components.day = 0
         return components
     }
     
     public func minutes() -> NSDateComponents
     {
-        let components : NSDateComponents = NSDateComponents()
+        let components : NSDateComponents = NSDateComponents.zero()
         components.minute = self
-        components.hour = 0
-        components.year = 0
-        components.second = 0
-        components.month = 0
-        components.day = 0
-        
         return components
     }
     
     public func seconds() -> NSDateComponents
     {
-        let components : NSDateComponents = NSDateComponents()
-        components.minute = 0
-        components.hour = 0
-        components.year = 0
+        let components : NSDateComponents = NSDateComponents.zero()
         components.second = self
-        components.month = 0
-        components.day = 0
-        
         return components
     }
     
     public func days() -> NSDateComponents
     {
-        let components : NSDateComponents = NSDateComponents()
-        components.minute = 0
-        components.hour = 0
-        components.year = 0
-        components.second = 0
-        components.month = 0
+        let components : NSDateComponents = NSDateComponents.zero()
         components.day = self
         return components
     }
     
     public func months() -> NSDateComponents
     {
-        let components : NSDateComponents = NSDateComponents()
-        components.minute = 0
-        components.hour = 0
-        components.year = 0
-        components.second = 0
+        let components : NSDateComponents = NSDateComponents.zero()
         components.month = self
-        components.day = 0
         return components
     }
     
     public func years() -> NSDateComponents
     {
-        let components : NSDateComponents = NSDateComponents()
-        components.minute = 0
-        components.hour = 0
+        let components : NSDateComponents = NSDateComponents.zero()
         components.year = self
-        components.second = 0
-        components.month = 0
-        components.day = 0
         return components
     }
     
@@ -185,7 +168,6 @@ public extension NSDate
     public func dateBySubtractingMonths(dMonths: Int) -> NSDate {
         return self.dateByAddingMonths(-dMonths)
     }
-    // Courtesy of dedan who mentions issues with Daylight Savings
     
    public  func dateByAddingDays(dDays: Int) -> NSDate {
         let dateComponents: NSDateComponents = NSDateComponents()
@@ -193,8 +175,8 @@ public extension NSDate
         let newDate: NSDate = NSCalendar.currentCalendar().dateByAddingComponents(dateComponents, toDate: self, options: NSCalendarOptions(rawValue: 0))!
         return newDate
     }
-    public
-    func dateByAddingSeconds(seconds: Int) -> NSDate {
+    
+    public func dateByAddingSeconds(seconds: Int) -> NSDate {
         let dateComponents: NSDateComponents = NSDateComponents()
         dateComponents.second = seconds
         let newDate: NSDate = NSCalendar.currentCalendar().dateByAddingComponents(dateComponents, toDate: self, options: NSCalendarOptions(rawValue: 0))!
@@ -234,14 +216,6 @@ public extension NSDate
     
 }
 
-
-infix operator  + { associativity left precedence 140 }
-infix operator > { associativity left precedence 130 }
-infix operator < { associativity left precedence 130 }
-infix operator >= { associativity left precedence 130 }
-infix operator <= { associativity left precedence 130 }
-infix operator == { associativity left precedence 130 }
-
 public func + (let date : NSDate , comp : NSDateComponents)->NSDate
 {
     return NSCalendar.currentCalendar().dateByAddingComponents(comp, toDate: date, options: NSCalendarOptions(rawValue: 0))!
@@ -276,29 +250,6 @@ public func - (let frmDate : NSDate , let toDate : NSDate) -> NSDateComponents
     return NSCalendar.currentCalendar().components([.Year,.Month,.Day,.Hour,.Minute,.Second], fromDate: toDate, toDate: frmDate, options: NSCalendarOptions(rawValue:0))
 }
 
-public func > (let comp : NSDateComponents , let other : NSDateComponents)->Bool
-{
-    if(comp.year < other.year) {
-        return false
-    }
-    else if(comp.month < other.month) {
-        return false
-    }
-    else if(comp.day < other.day) {
-        return false
-    }
-    else if(comp.hour < other.hour) {
-        return false
-    }
-    else if(comp.minute < other.minute) {
-        return false
-    }
-    else if(comp.second < other.second) {
-        return false
-    }
-    
-    return true
-}
 
 public func < (let comp : NSDateComponents , let other : NSDateComponents)->Bool
 {
@@ -329,13 +280,10 @@ public func == (let comp : NSDateComponents , let other : NSDateComponents)->Boo
     return comp.year == other.year && comp.month == other.month && comp.day == other.day && comp.hour == other.hour && comp.minute == other.minute && comp.second == other.second
 }
 
-public func >= (let comp : NSDateComponents , let other : NSDateComponents)->Bool
+extension NSDateComponents : Comparable
 {
-    return comp > other || comp == other
 }
 
-public func <= (let comp : NSDateComponents , let other : NSDateComponents)->Bool
-{
-    return comp < other || comp == other
-}
+
+
 
