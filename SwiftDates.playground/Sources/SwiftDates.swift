@@ -25,6 +25,75 @@ public extension NSDateComponents
         return new
     }
     
+    public func componentList()->[Int]
+    {
+        return [self.year,self.month,self.day,self.hour,self.minute,self.second]
+    }
+    
+    public func unitNames() -> [String]
+    {
+        return ["year","month","day","hour","minute","second"]
+    }
+    
+    public func componentStrings()->[String]
+    {
+        let zipped = zip(self.componentList(), self.unitNames())
+        let strings : [String] = zipped.map {
+            
+            return abs($0.0) > 0 ? "\(abs($0.0)) \($0.1)\(self.suffixForVal($0.0))" : ""
+            
+        }
+       
+        return strings
+    }
+    
+    public func longString()->String
+    {
+        var timeString = ""
+        
+        var strings = self.componentStrings().filter { $0 != ""}
+        
+        let first =  strings[0..<strings.count-1].joinWithSeparator(" , ")
+    
+        var second = strings.last!
+        
+        if(first != "") {
+            second = " and "+second
+        }
+        
+        timeString += first + second
+        
+        return (timeString != "") ? (timeString + " " + self.suffix() ): "Just now"
+    }
+    
+    func shortString()->String
+    {
+        let first =  self.componentStrings().filter { $0 != ""}.first
+        
+        if let firstPart = first {
+            return firstPart + " "+self.suffix()
+        }
+        else {
+            return "Just now"
+        }
+    }
+    
+    
+    func isPositive()->Bool
+    {
+        return self.year < 0 || self.month < 0 || self.day < 0 || self.hour < 0 || self.minute < 0 || self.second < 0
+    }
+    
+    func suffix()->String
+    {
+        return self.isPositive() ?  "ago" : "from now"
+    }
+
+    public func suffixForVal(let val :Int)->String
+    {
+        return abs(val) > 1 ? "s" : ""
+    }
+    
     public func before(date : NSDate) -> NSDate
     {
         return date - self
@@ -247,22 +316,22 @@ extension NSDateComponents : Comparable
 
 public func < (let comp : NSDateComponents , let other : NSDateComponents)->Bool
 {
-    if(comp.year > other.year) {
+    if(abs(comp.year) > abs(other.year)) {
         return false
     }
-    else if(comp.month > other.month) {
+    else if(abs(comp.month) > abs(other.month)) {
         return false
     }
-    else if(comp.day > other.day) {
+    else if(abs(comp.day) > abs(other.day)) {
         return false
     }
-    else if(comp.hour > other.hour) {
+    else if(abs(comp.hour) > abs(other.hour)) {
         return false
     }
-    else if(comp.minute > other.minute) {
+    else if(abs(comp.minute) > abs(other.minute)) {
         return false
     }
-    else if(comp.second > other.second) {
+    else if(abs(comp.second) > abs(other.second)) {
         return false
     }
     return true

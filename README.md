@@ -12,4 +12,14 @@ Date Arithmetic :
     
     var isGreaterThanOneHourOneMinute =  later - NSDate()  > 1.hours + 1.minutes // true
 
+
+Conversions to duration String:
+
+    (NSDate() - later).longString() // "1 hour , 7 minutes and 2 seconds ago"
+
+    (later - NSDate()).shortString() // "1 hour from now"
+
+
 Try it in the playground. 
+
+

@@ -13,5 +13,7 @@ var isGreaterThanOneHourOneMinute =  later - NSDate()  > 1.hours + 1.minutes
 
 var isGreaterThanTwoHour = later - NSDate() > 2.hours
 
+(NSDate() - later).longString()
 
+(later - NSDate()).shortString()
 
